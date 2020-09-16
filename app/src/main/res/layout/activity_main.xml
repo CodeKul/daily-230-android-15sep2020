@@ -37,7 +37,7 @@
         android:layout_height="250dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/center_corners"
-        android:padding="16dp"
+        android:padding="0dp"
         android:textColor="#D6D7D7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -45,11 +45,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:background="@drawable/btn_corners"
+        android:background="@drawable/btn_state"
         android:text="Lets Quit"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
