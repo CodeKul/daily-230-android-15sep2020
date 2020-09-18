@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="btn_op_wd">150dp</dimen>
+    <dimen name="btn_op_ht">50dp</dimen>
+</resources>

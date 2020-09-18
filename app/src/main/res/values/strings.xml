@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">QuitDrinking</string>
+    <string name="cheat_days">Cheat Days Available</string>
+    <string name="rules">Rules are simple :Each hour without an addiction earns you 1 Health Point (or 24 Health points per 24 hours).
+    However first day on which you use your addiction will cost you 48 Health Points. Each time after that you will need double as many Health Points as you used before to earn next cheat day. So for example first cheat day on which you may use you addiction will cost you 48 Health Points, second day will cost you 96 Health points, third day will cost you 192 Health Points, fourth cheat
+    fourth cheat day will cost you 384 Health Points etc. Earn badges to get extra Health Points.
+    </string>
 </resources>
