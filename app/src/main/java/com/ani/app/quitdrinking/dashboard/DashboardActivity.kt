@@ -10,6 +10,6 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
 
         val name = "android"
-        val sts = "Hi"
+        val sts = "Hello"
     }
 }
