@@ -1,11 +1,11 @@
-package com.ani.app.quitdrinking
+package com.ani.app.quitdrinking.welcome
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.ani.app.quitdrinking.R
 import com.ani.app.quitdrinking.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

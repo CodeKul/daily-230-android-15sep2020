@@ -1,4 +1,4 @@
-package com.ani.app.quitdrinking
+package com.ani.app.quitdrinking.welcome
 
 import android.util.Log
 import androidx.lifecycle.LiveData

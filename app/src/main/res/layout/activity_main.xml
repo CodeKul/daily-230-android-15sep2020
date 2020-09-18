@@ -6,14 +6,14 @@
     <data>
         <variable
             name="welcomeViewModel"
-            type="com.ani.app.quitdrinking.WelcomeViewModel" />
+            type="com.ani.app.quitdrinking.welcome.WelcomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#1b2836"
-        tools:context=".MainActivity">
+        tools:context=".welcome.MainActivity">
 
         <ImageView
             android:id="@+id/imageView"
