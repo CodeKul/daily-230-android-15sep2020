@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.ani.app.quitdrinking.R
 import kotlinx.android.synthetic.main.activity_sample.*
 
@@ -29,7 +30,18 @@ class SampleActivity : AppCompatActivity() {
             val intent = Intent(ctx, typ)
             intent.putExtras(bnd) // setting data store to intent
 
-            startActivity(intent)
+            startActivityForResult(intent, 1234)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 1234) {
+            if(resultCode == RESULT_OK) {
+                swMb.text = data?.extras?.getString("dimensions")
+            }
+            Log.i("@ani", "You are coming back from Settings Activity")
+        }
+
     }
 }
