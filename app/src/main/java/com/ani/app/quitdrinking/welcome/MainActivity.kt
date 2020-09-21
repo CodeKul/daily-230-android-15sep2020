@@ -1,11 +1,13 @@
 package com.ani.app.quitdrinking.welcome
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.ani.app.quitdrinking.R
+import com.ani.app.quitdrinking.dashboard.DashboardActivity
 import com.ani.app.quitdrinking.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.letsQuit.observe(this, {
             Log.i("@ani", "Lets Quit Clicked")
+            startActivity(Intent(this, DashboardActivity::class.java))
         })
     }
 }
