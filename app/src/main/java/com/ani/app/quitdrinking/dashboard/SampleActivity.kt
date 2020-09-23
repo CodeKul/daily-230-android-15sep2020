@@ -11,9 +11,9 @@ import androidx.core.location.LocationManagerCompat
 import com.ani.app.quitdrinking.R
 import kotlinx.android.synthetic.main.activity_sample.*
 
-
 class SampleActivity : AppCompatActivity() {
     private var device : String = "mobile"
+    private var isFromLoc = false
 
     //https://stackoverflow.com/questions/25175522/how-to-enable-location-access-programmatically-in-android/25175756
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,9 +21,16 @@ class SampleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sample)
 
         swMb.setOnCheckedChangeListener { buttonView, isChecked ->
-            device = if(isChecked) "tv" else "mobile"
-            buttonView.text = device
-            if(isChecked) locationSettingsActivity()
+            if(!isFromLoc) {
+                device = if (isChecked) "tv" else "mobile"
+                buttonView.text = device
+            }
+            if(isChecked) {
+                if(!isLocationEnabled())
+                    locationSettingsActivity()
+            }
+
+            isFromLoc = false
         }
 
         btNx.setOnClickListener {
@@ -50,6 +57,7 @@ class SampleActivity : AppCompatActivity() {
         }
         if(requestCode == REQUEST_LOCATION_SETTINGS) {
             Log.i("@ani", "REsult is ${resultCode}")
+            isFromLoc = true
             swMb.text = if(isLocationEnabled()) "enabled" else "disabled"
             swMb.isChecked = isLocationEnabled()
         }
