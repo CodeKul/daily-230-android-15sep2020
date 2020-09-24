@@ -3,6 +3,7 @@ package com.ani.app.quitdrinking.welcome
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -20,24 +21,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//        var spNm = 0
+
         val binding = DataBindingUtil
             .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.welcomeViewModel = viewModel
 
-        viewModel.spent.value = "10"
-        viewModel.days.value = "30"
-
-        viewModel.spent.observe(this, {
-            Log.i("@ani", "Spent is $it")
-        })
-
-        viewModel.days.observe(this, {
-            Log.i("@ani", "Days are $it")
-        })
-
         viewModel.letsQuit.observe(this, {
-            Log.i("@ani", "Lets Quit Clicked")
-            startActivity(Intent(this, DashboardActivity::class.java))
+            it?.let {// kotlin scoped functions
+                if (it >= 0) {
+                    startActivity(Intent(this, DashboardActivity::class.java))
+                } else Toast.makeText(this, "Enter Details", Toast.LENGTH_LONG).show()
+            }
+        })
+
+        viewModel.spent.observe(this, { spent ->
+            spent?.let {
+                if (it.isNotEmpty()) {
+                    val spentNum = it.toInt()
+                    if (spentNum > 100) {
+                        Toast.makeText(this, "Invalid Spent", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         })
     }
 }
