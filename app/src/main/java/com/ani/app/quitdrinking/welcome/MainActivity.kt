@@ -12,6 +12,10 @@ import com.ani.app.quitdrinking.R
 import com.ani.app.quitdrinking.dashboard.DashboardActivity
 import com.ani.app.quitdrinking.dashboard.domain.Dashboard
 import com.ani.app.quitdrinking.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,39 +27,40 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        var spNm = 0
+        if (isFirstLogin()) {
+            startActivity(Intent(this, DashboardActivity::class.java))
+        } else {
+            val binding = DataBindingUtil
+                .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+            binding.welcomeViewModel = viewModel
 
-        val binding = DataBindingUtil
-            .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        binding.welcomeViewModel = viewModel
 
-        viewModel.letsQuit.observe(this, {
-            it?.let {// kotlin scoped functions
-                if (it >= 0) {
+            viewModel.letsQuit.observe(this, {
+                it?.let {// kotlin scoped functions
+                    if (it >= 0) {
+                        (application as App).db.dashboardDao().deleteAll()
 
-                    (application as App).db.dashboardDao().saveData(
-                        Dashboard(
-                            id = System.currentTimeMillis(),
-                            spent = viewModel.toNumber(viewModel.spent),
-                            days = viewModel.toNumber(viewModel.days)
+                        (application as App).db.dashboardDao().saveData(
+                            Dashboard(
+                                id = System.currentTimeMillis(),
+                                spent = viewModel.toNumber(viewModel.spent),
+                                days = viewModel.toNumber(viewModel.days)
+                            )
                         )
-                    )
-
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                } else Toast.makeText(this, "Enter Details", Toast.LENGTH_LONG).show()
-            }
-        })
-
-        viewModel.spent.observe(this, { spent ->
-            spent?.let {
-                if (it.isNotEmpty()) {
-                    val spentNum = it.toInt()
-                    if (spentNum > 100) {
-                        Toast.makeText(this, "Invalid Spent", Toast.LENGTH_LONG).show()
-                    }
+                        startActivity(Intent(this, DashboardActivity::class.java))
+                    } else Toast.makeText(this, "Enter Details", Toast.LENGTH_LONG).show()
                 }
+            })
+        }
+    }
+
+    private fun isFirstLogin(): Boolean {
+        CoroutineScope(Dispatchers.IO).launch {
+            this.async {
+
             }
-        })
+        }
+        return (application as App).db.dashboardDao().timestamps().isEmpty()
     }
 }
 

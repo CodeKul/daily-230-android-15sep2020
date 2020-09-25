@@ -12,5 +12,8 @@ interface DashboardDao {
     fun saveData(data : Dashboard)
 
     @Query("select * from dashboard_data")
-    fun timestamp(): Long
+    fun timestamps(): List<Dashboard>
+
+    @Query("delete from dashboard_data")
+    fun deleteAll()
 }
