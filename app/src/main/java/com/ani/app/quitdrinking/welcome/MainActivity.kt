@@ -7,8 +7,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.ani.app.quitdrinking.App
 import com.ani.app.quitdrinking.R
 import com.ani.app.quitdrinking.dashboard.DashboardActivity
+import com.ani.app.quitdrinking.dashboard.domain.Dashboard
 import com.ani.app.quitdrinking.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +32,15 @@ class MainActivity : AppCompatActivity() {
         viewModel.letsQuit.observe(this, {
             it?.let {// kotlin scoped functions
                 if (it >= 0) {
+
+                    (application as App).db.dashboardDao().saveData(
+                        Dashboard(
+                            id = System.currentTimeMillis(),
+                            spent = viewModel.toNumber(viewModel.spent),
+                            days = viewModel.toNumber(viewModel.days)
+                        )
+                    )
+
                     startActivity(Intent(this, DashboardActivity::class.java))
                 } else Toast.makeText(this, "Enter Details", Toast.LENGTH_LONG).show()
             }

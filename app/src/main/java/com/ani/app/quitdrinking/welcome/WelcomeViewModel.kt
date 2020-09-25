@@ -19,7 +19,7 @@ class WelcomeViewModel : ViewModel() {
         else _letsQuit.value = -1
     }
 
-    private fun toNumber(data : LiveData<String>): Int {
+    fun toNumber(data : LiveData<String>): Int {
         return data.value?.let {
             if(it.isEmpty()) 0 else it.toInt()
         } ?: 0
