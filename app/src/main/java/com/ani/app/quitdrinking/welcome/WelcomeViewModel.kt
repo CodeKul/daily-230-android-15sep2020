@@ -13,19 +13,15 @@ class WelcomeViewModel : ViewModel() {
     val days : MutableLiveData<String> = MutableLiveData()
 
     fun letsQuit() {
-        var spentNum = 0
-        var daysNum = 0
-
-        spent.value?.let {
-            spentNum = if(it.isEmpty()) 0 else it.toInt()
-        }
-        days.value?.let {
-            daysNum = if(it.isEmpty()) 0 else it.toInt()
-        }
-
-        if( ( (spentNum > 0) && (spentNum <= 100)) && (daysNum > 0)) {
+        if( ( (toNumber(spent) > 0) && (toNumber(spent) <= 100)) && (toNumber(days) > 0)) {
             _letsQuit.value = _letsQuit.value?.plus(1)
         }
         else _letsQuit.value = -1
+    }
+
+    private fun toNumber(data : LiveData<String>): Int {
+        return data.value?.let {
+            if(it.isEmpty()) 0 else it.toInt()
+        } ?: 0
     }
 }
