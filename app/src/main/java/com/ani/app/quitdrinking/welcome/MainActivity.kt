@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ani.app.quitdrinking.App
 import com.ani.app.quitdrinking.R
@@ -27,39 +28,35 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (isFirstLogin()) {
-            startActivity(Intent(this, DashboardActivity::class.java))
-        } else {
-            val binding = DataBindingUtil
-                .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-            binding.welcomeViewModel = viewModel
+        Thread {
+            if (isFirstLogin()) {
+                startActivity(Intent(this, DashboardActivity::class.java))
+            } else {
+                val binding = DataBindingUtil
+                    .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+                binding.welcomeViewModel = viewModel
 
+                viewModel.letsQuit.observe(this, Observer {
+                    it?.let {// kotlin scoped functions
+                        if (it >= 0) {
+                            (application as App).db.dashboardDao().deleteAll()
 
-            viewModel.letsQuit.observe(this, {
-                it?.let {// kotlin scoped functions
-                    if (it >= 0) {
-                        (application as App).db.dashboardDao().deleteAll()
-
-                        (application as App).db.dashboardDao().saveData(
-                            Dashboard(
-                                id = System.currentTimeMillis(),
-                                spent = viewModel.toNumber(viewModel.spent),
-                                days = viewModel.toNumber(viewModel.days)
+                            (application as App).db.dashboardDao().saveData(
+                                Dashboard(
+                                    id = System.currentTimeMillis(),
+                                    spent = viewModel.toNumber(viewModel.spent),
+                                    days = viewModel.toNumber(viewModel.days)
+                                )
                             )
-                        )
-                        startActivity(Intent(this, DashboardActivity::class.java))
-                    } else Toast.makeText(this, "Enter Details", Toast.LENGTH_LONG).show()
-                }
-            })
-        }
+                            startActivity(Intent(this, DashboardActivity::class.java))
+                        } else runOnUiThread {  Toast.makeText(this, "Enter Details", Toast.LENGTH_LONG).show() }
+                    }
+                })
+            }
+        }.start()
     }
 
     private fun isFirstLogin(): Boolean {
-        CoroutineScope(Dispatchers.IO).launch {
-            this.async {
-
-            }
-        }
         return (application as App).db.dashboardDao().timestamps().isEmpty()
     }
 }

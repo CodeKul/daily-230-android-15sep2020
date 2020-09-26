@@ -27,7 +27,7 @@ class DashboardActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val data = (application as App).db.dashboardDao().timestamps().first()
-            viewModel.dhm.postValue("8 8 8")
+           dateDiff(data.id)
         }
     }
 
@@ -46,7 +46,7 @@ class DashboardActivity : AppCompatActivity() {
 
         Log.i("@ani", "Days - ${diffDay} Hours - ${diffHours} Minutes - ${diffMinutes}")
 
-        viewModel.dhm.setValue(" 8 8 8 ")
+        viewModel.dhm.value = " 8 8 8 "
         //viewModel.setData()
     }
 }
